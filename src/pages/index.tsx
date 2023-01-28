@@ -1,10 +1,11 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
-
-import { api } from "../utils/api";
+import { Button } from "../components/ui/Button";
+import { FaDiscord, FaGithub } from "react-icons/fa";
+import Link from "next/link";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data: sessionData } = useSession();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-violet-300 to-violet-50">
@@ -17,60 +18,38 @@ const Home: NextPage = () => {
             </span>
           </h1>
           <p className="text-base text-zinc-800 sm:text-xl lg:text-lg xl:text-xl">
-            Introduction Artemecion, an easy way to track your bills
+            Introducing Artemecion, an easy way to track your bills
           </p>
           <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
             <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
-              {/** change below with button links */}
-              <a
-                href="#"
-                className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-indigo-700 shadow-sm hover:bg-indigo-50 sm:px-8"
+              <Button
+                variant="default"
+                type="button"
+                onClick={
+                  sessionData
+                    ? () => void signOut()
+                    : () => void signIn("discord")
+                }
               >
-                Login with Discord
-              </a>
-              <a
-                href="#"
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-500 bg-opacity-60 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-opacity-70 sm:px-8"
-              >
-                Live demo
-              </a>
+                <FaDiscord className="-ml-1 mr-2 h-5 w-5" />
+                {sessionData ? "Sign out" : "Sign in"}
+              </Button>
+              <Button variant="outline">
+                <FaGithub className="-ml-1 mr-2 h-5 w-5" />
+                <Link
+                  href={"https://github.com/alexisveryreal/artemecion"}
+                  target="_blank"
+                  referrerPolicy="no-referrer"
+                >
+                  Github
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col items-center gap-2">
-        <p className="text-2xl text-zinc-800">
-          {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-        </p>
-        <AuthShowcase />
       </div>
     </main>
   );
 };
 
 export default Home;
-
-const AuthShowcase: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-zinc-800">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-violet-900/10 px-10 py-3 font-semibold text-zinc-800 no-underline transition hover:bg-violet-900/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
-      </button>
-    </div>
-  );
-};
