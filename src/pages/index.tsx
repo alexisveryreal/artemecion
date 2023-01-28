@@ -28,7 +28,8 @@ const Home: NextPage = () => {
                 onClick={
                   sessionData
                     ? () => void signOut()
-                    : () => void signIn("discord")
+                    : () =>
+                        void signIn("discord", { callbackUrl: "/dashboard" })
                 }
               >
                 <FaDiscord className="-ml-1 mr-2 h-5 w-5" />
