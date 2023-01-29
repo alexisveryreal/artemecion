@@ -1,9 +1,8 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
 const DashboardPage = () => {
-  const { data: sessionData, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -17,31 +16,23 @@ const DashboardPage = () => {
   }
 
   return (
-    <>
-      <Navbar
-        email={sessionData?.user?.email ?? undefined}
-        image={sessionData?.user?.image ?? undefined}
-        name={sessionData?.user?.name ?? undefined}
-      />
-
-      <div className="py-10">
-        <header>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-              Dashboard
-            </h1>
+    <div className="min-h-screen py-10">
+      <header>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+            Dashboard
+          </h1>
+        </div>
+      </header>
+      <main>
+        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="px-4 py-8 sm:px-0">
+            <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
+            content hereeee
           </div>
-        </header>
-        <main>
-          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div className="px-4 py-8 sm:px-0">
-              <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
-              content hereeee
-            </div>
-          </div>
-        </main>
-      </div>
-    </>
+        </div>
+      </main>
+    </div>
   );
 };
 
