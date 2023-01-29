@@ -38,21 +38,27 @@ const Home: NextPage = () => {
                   Sign in
                 </Button>
               ) : (
-                <Button variant="default" type="button">
-                  <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                  New Bill
-                </Button>
-              )}
-              <Button variant="outline">
-                <FaGithub className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                <Link
-                  href={"https://github.com/alexisveryreal/artemecion"}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Github
+                <Link href="/create-bill">
+                  <Button variant="default" type="button">
+                    <PlusIcon
+                      className="-ml-1 mr-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    New Bill
+                  </Button>
                 </Link>
-              </Button>
+              )}
+
+              <Link
+                href={"https://github.com/alexisveryreal/artemecion"}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <Button variant="outline">
+                  <FaGithub className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                  Github
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

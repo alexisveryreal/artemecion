@@ -92,29 +92,31 @@ const Navbar = ({ email, image, name, status }: NavbarProps) => {
               </div>
               <div className="flex items-center">
                 <div className="mr-4 flex-shrink-0">
-                  <Button variant="outline">
-                    <FaGithub
-                      className="-ml-1 mr-2 hidden h-5 w-5 md:block"
-                      aria-hidden="true"
-                    />
-                    <Link
-                      href={"https://github.com/alexisveryreal/artemecion"}
-                      target="_blank"
-                      referrerPolicy="no-referrer"
-                      className="hidden md:block"
-                    >
+                  <Link
+                    href={"https://github.com/alexisveryreal/artemecion"}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="hidden md:block"
+                  >
+                    <Button variant="outline">
+                      <FaGithub
+                        className="-ml-1 mr-2 hidden h-5 w-5 md:block"
+                        aria-hidden="true"
+                      />
                       Github
-                    </Link>
-                    <Link
-                      href={"https://github.com/alexisveryreal/artemecion"}
-                      target="_blank"
-                      referrerPolicy="no-referrer"
-                      className="block md:hidden"
-                    >
+                    </Button>
+                  </Link>
+                  <Link
+                    href={"https://github.com/alexisveryreal/artemecion"}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="block md:hidden"
+                  >
+                    <Button variant="outline">
                       <FaGithub className="h-5 w-5" aria-hidden="true" />
                       <span className="sr-only">Github</span>
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 </div>
                 <div className="flex-shrink-0">
                   {authenticated ? (
