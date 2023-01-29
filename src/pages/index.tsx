@@ -20,8 +20,8 @@ const Home: NextPage = () => {
           <p className="text-base text-zinc-800 sm:text-xl lg:text-lg xl:text-xl">
             Introducing Artemecion, an easy way to track your bills
           </p>
-          <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
-            <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
+          <div className="mx-auto mt-10 flex max-w-sm sm:max-w-none sm:justify-center">
+            <div className="flex w-full flex-col space-y-4 sm:mx-auto sm:inline-grid sm:w-auto sm:grid-cols-2 sm:gap-5 sm:space-y-0">
               <Button
                 variant="default"
                 type="button"
