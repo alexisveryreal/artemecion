@@ -1,8 +1,9 @@
 import { type NextPage } from "next";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { Button } from "../components/ui/Button";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import Link from "next/link";
+import { PlusIcon } from "@heroicons/react/20/solid";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -22,25 +23,32 @@ const Home: NextPage = () => {
           </p>
           <div className="mx-auto mt-10 flex max-w-sm sm:max-w-none sm:justify-center">
             <div className="flex w-full flex-col space-y-4 sm:mx-auto sm:inline-grid sm:w-auto sm:grid-cols-2 sm:gap-5 sm:space-y-0">
-              <Button
-                variant="default"
-                type="button"
-                onClick={
-                  sessionData
-                    ? () => void signOut()
-                    : () =>
-                        void signIn("discord", { callbackUrl: "/dashboard" })
-                }
-              >
-                <FaDiscord className="-ml-1 mr-2 h-5 w-5" />
-                {sessionData ? "Sign out" : "Sign in"}
-              </Button>
+              {!sessionData ? (
+                <Button
+                  variant="default"
+                  type="button"
+                  onClick={() =>
+                    void signIn("discord", { callbackUrl: "/dashboard" })
+                  }
+                >
+                  <FaDiscord
+                    className="-ml-1 mr-2 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                  Sign in
+                </Button>
+              ) : (
+                <Button variant="default" type="button">
+                  <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                  New Bill
+                </Button>
+              )}
               <Button variant="outline">
-                <FaGithub className="-ml-1 mr-2 h-5 w-5" />
+                <FaGithub className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                 <Link
                   href={"https://github.com/alexisveryreal/artemecion"}
                   target="_blank"
-                  referrerPolicy="no-referrer"
+                  rel="noreferrer"
                 >
                   Github
                 </Link>
