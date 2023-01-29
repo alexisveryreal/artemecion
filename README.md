@@ -43,12 +43,3 @@ npm run dev
 ## License
 
 This application is licensed under the [Apache-2.0 license](). If you're copying this website just let me know.
-
-
-## Colors
-
-- text: zinc-50
-- highlight text/numbers: #9489CC
-- sub text: #8E8DA7
-- button solid: #633BD8
-- cards/table bg: #413B70
