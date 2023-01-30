@@ -62,7 +62,7 @@ const OptionGroup = <TVal,>({
                       "block text-sm font-medium"
                     )}
                   >
-                    {option.name}
+                    {option.name.split(/(?=[A-Z])/).join(" ")}
                   </RadioGroup.Label>
                   <RadioGroup.Description
                     as="span"

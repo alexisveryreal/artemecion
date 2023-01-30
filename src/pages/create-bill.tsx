@@ -1,15 +1,22 @@
+import { ArrowPathIcon } from "@heroicons/react/20/solid";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { useController } from "react-hook-form";
 import { z } from "zod";
 import { Form, useZodForm } from "../components/forms/Form";
 import { FormInput } from "../components/forms/FormInput";
 import { FormOptionGroup } from "../components/forms/FormOptionGroup";
+import { FormSelect } from "../components/forms/FormSelect";
 import { FormTextarea } from "../components/forms/FormTextarea";
+import { SuccessModal } from "../components/SuccessModal";
 import { Button } from "../components/ui/Button";
 import type { Options } from "../components/ui/OptionGroup";
 import { OptionGroup } from "../components/ui/OptionGroup";
 import { api } from "../utils/api";
+import { cn } from "../utils/cn";
 
-const schema = z.object({
+// this schema is re-used in bill.router.ts
+export const billCreateSchema = z.object({
   name: z.string().min(1, "Name must have at least one character"),
   description: z.string().nullable(),
   amount: z.coerce
@@ -18,12 +25,16 @@ const schema = z.object({
       required_error: "Please enter an amount",
     })
     .min(1, "Amount must be greater than 0"),
-  type: z.string(),
+  type: z.enum(["OneTime", "Recurring"]),
+  url: z.string().url("Please enter a valid url"),
+  recurringType: z.enum(["Monthly", "Yearly", "Quaterly", "None"]),
+  recurringDate: z.date().nullable(),
+  oneTimeDate: z.date().nullable(),
 });
 
 const options: Options[] = [
   {
-    name: "One Time",
+    name: "OneTime",
     description: "This is a one off bill",
   },
   {
@@ -32,11 +43,38 @@ const options: Options[] = [
   },
 ];
 
+const ReccuringMap: Record<
+  z.infer<typeof billCreateSchema>["recurringType"],
+  string
+> = {
+  Monthly: "Monthly",
+  Quaterly: "Quaterly",
+  Yearly: "Yearly",
+  None: "None",
+};
+
 const CreateBillPage = () => {
   const form = useZodForm({
-    schema,
+    schema: billCreateSchema,
     defaultValues: {
       type: "Recurring",
+      recurringType: "None",
+      recurringDate: null,
+      oneTimeDate: null,
+    },
+  });
+
+  const type = form.watch("type");
+  const recurringType = form.watch("recurringType");
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const router = useRouter();
+
+  // const context = api.useContext()
+
+  const { mutate: createBill, isLoading } = api.bill.create.useMutation({
+    onSuccess: () => {
+      setModalOpen(true);
     },
   });
 
@@ -56,6 +94,9 @@ const CreateBillPage = () => {
               form={form}
               onSubmit={(data) => {
                 console.log(data);
+                createBill({
+                  ...data,
+                });
               }}
             >
               <div className="space-y-8 divide-y divide-zinc-200">
@@ -101,24 +142,76 @@ const CreateBillPage = () => {
                           Write anything about the bill here!
                         </p>
                       </div>
-                    </div>
-                  </div>
-                  <div className="pt-8">
-                    <div>
-                      <h3 className="text-lg font-medium leading-6 text-zinc-900">
-                        Bill type
-                      </h3>
-                      <p className="mt-1 text-sm text-zinc-500">
-                        What type of bill is this?
-                      </p>
-                    </div>
-                    <div className="my-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                       <div className="sm:col-span-6">
                         <FormOptionGroup
                           label="Bill Type"
                           name="type"
                           control={form.control}
                           options={options}
+                        />
+                      </div>
+                      <div className="sm:col-span-6">
+                        <FormInput
+                          type="text"
+                          label="Site Url"
+                          {...form.register("url")}
+                        />
+                        <p className="mt-2 text-sm text-zinc-500">
+                          Please include https://
+                        </p>
+                      </div>
+                      <div
+                        className={cn(
+                          type !== "Recurring" ? "hidden" : "block",
+                          "sm:col-span-3"
+                        )}
+                      >
+                        <FormSelect
+                          label="Recurring Type"
+                          {...form.register("recurringType")}
+                        >
+                          {billCreateSchema.shape.recurringType.options.map(
+                            (op) => (
+                              <option key={op} value={op}>
+                                {ReccuringMap[op]}
+                              </option>
+                            )
+                          )}
+                        </FormSelect>
+                      </div>
+                      <div
+                        className={cn(
+                          recurringType === "None" || type === "OneTime"
+                            ? "hidden"
+                            : "block",
+                          "sm:col-span-3"
+                        )}
+                      >
+                        <FormInput
+                          type="datetime-local"
+                          label="Recurring Date"
+                          {...form.register("recurringDate", {
+                            valueAsDate: true,
+                          })}
+                        />
+
+                        <p className="mt-2 text-sm text-zinc-500">
+                          Note: time section will be what we base off to notify
+                          you
+                        </p>
+                      </div>
+                      <div
+                        className={cn(
+                          type === "Recurring" ? "hidden" : "block",
+                          "sm:col-span-3"
+                        )}
+                      >
+                        <FormInput
+                          type="datetime-local"
+                          label="One Time Date"
+                          {...form.register("oneTimeDate", {
+                            valueAsDate: true,
+                          })}
                         />
                       </div>
                     </div>
@@ -134,8 +227,16 @@ const CreateBillPage = () => {
                     >
                       Cancel
                     </Button>
-                    <Button type="submit" className="ml-3 px-4">
-                      Save
+                    <Button
+                      type="submit"
+                      className="ml-3 px-4"
+                      disabled={isLoading}
+                    >
+                      {isLoading && (
+                        <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      {isLoading ? "Saving" : "Save"}
+                      {/* Save */}
                     </Button>
                   </div>
                 </div>
@@ -144,6 +245,17 @@ const CreateBillPage = () => {
           </div>
         </div>
       </main>
+
+      <SuccessModal
+        buttonText="Go back to dashboard"
+        onClick={() => {
+          void router.push("/dashboard");
+        }}
+        onClose={(option) => setModalOpen(option)}
+        open={modalOpen}
+        text="We will notify you shortly via email"
+        title="Created Bill"
+      />
     </div>
   );
 };

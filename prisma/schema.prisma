@@ -52,14 +52,14 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    feeds         Feed[]
+    billItem      BillItem[]
 }
 
 model VerificationToken {
@@ -72,34 +72,32 @@ model VerificationToken {
 
 // Artemecion specific TODO: flesh out
 
-model Feed {
-    id          String     @id @default(cuid())
-    name        String
-    description String?
-    creator     User       @relation(fields: [userId], references: [id])
-    userId      String
-    createdAt   DateTime   @default(now())
-    updatedAt   DateTime   @updatedAt
-    bills       BillItem[]
-
-    @@index([userId])
-}
-
 enum BillItemType {
     OneTime
     Recurring
 }
 
-model BillItem {
-    id          String       @id @default(cuid())
-    name        String
-    description String?
-    amount      Int
-    type        BillItemType
-    Feed        Feed         @relation(fields: [fieldId], references: [id])
-    fieldId     String
-    createdAt   DateTime     @default(now())
-    updatedAt   DateTime     @updatedAt
+enum RecurringType {
+    Monthly
+    Yearly
+    Quaterly
+    None
+}
 
-    @@index([fieldId])
+model BillItem {
+    id            String         @id @default(cuid())
+    name          String
+    description   String?
+    amount        Int
+    type          BillItemType
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+    User          User           @relation(fields: [userId], references: [id])
+    userId        String
+    url           String?
+    recurringDate DateTime? // recurring
+    recurringType RecurringType? @default(None)
+    oneTimeDate   DateTime? // OneTime, no Notifications
+
+    @@index([userId])
 }
