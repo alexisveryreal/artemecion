@@ -38,8 +38,11 @@ const Home: NextPage = () => {
                   Sign in
                 </Button>
               ) : (
-                <Link href="/create-bill">
-                  <Button variant="default" type="button">
+                <Link
+                  href="/create-bill"
+                  className="inline-flex w-full items-center justify-center"
+                >
+                  <Button variant="default" type="button" className="w-full">
                     <PlusIcon
                       className="-ml-1 mr-2 h-5 w-5"
                       aria-hidden="true"
@@ -53,8 +56,9 @@ const Home: NextPage = () => {
                 href={"https://github.com/alexisveryreal/artemecion"}
                 target="_blank"
                 rel="noreferrer"
+                className="inline-flex w-full items-center justify-center"
               >
-                <Button variant="outline">
+                <Button variant="outline" className="w-full">
                   <FaGithub className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                   Github
                 </Button>
