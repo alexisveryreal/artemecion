@@ -1,9 +1,16 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { api } from "../utils/api";
 const DashboardPage = () => {
   const { status } = useSession();
   const router = useRouter();
+
+  const { data: bills } = api.bill.getUserBills.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
+    refetchOnReconnect: false,
+  });
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -27,8 +34,15 @@ const DashboardPage = () => {
       <main>
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="px-4 py-8 sm:px-0">
-            <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
-            content hereeee
+            {bills && (
+              <ul role="list" className="divide-y divide-zinc-200">
+                {bills.map((bill) => (
+                  <li key={bill.id} className="px-4 py-4 sm:px-0">
+                    {bill.name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </main>
