@@ -3,6 +3,7 @@ import { Input } from "../ui/Input";
 import type { InputProps } from "../ui/Input";
 import type { UseFormFieldProps } from "./FormField";
 import { FormField, useFormField } from "./FormField";
+import { useFormContext } from "react-hook-form";
 
 type FormInputProps<T> = UseFormFieldProps<T> &
   InputProps & {
@@ -12,9 +13,13 @@ type FormInputProps<T> = UseFormFieldProps<T> &
 const FormInput = forwardRef<HTMLInputElement, FormInputProps<unknown>>(
   (props, ref) => {
     const { formFieldProps, childProps } = useFormField(props);
+    const {
+      formState: { errors },
+    } = useFormContext();
+
     return (
       <FormField {...formFieldProps}>
-        <Input {...childProps} ref={ref} />
+        <Input {...childProps} error={!!errors[childProps.name]} ref={ref} />
       </FormField>
     );
   }
