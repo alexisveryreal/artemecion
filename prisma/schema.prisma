@@ -94,7 +94,7 @@ model BillItem {
     updatedAt     DateTime       @updatedAt
     User          User           @relation(fields: [userId], references: [id])
     userId        String
-    url           String?
+    url           String
     recurringDate DateTime? // recurring
     recurringType RecurringType? @default(None)
     oneTimeDate   DateTime? // OneTime, no Notifications
