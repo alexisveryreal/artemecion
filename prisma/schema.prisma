@@ -77,27 +77,17 @@ enum BillItemType {
     Recurring
 }
 
-enum RecurringType {
-    Monthly
-    Yearly
-    Quaterly
-    None
-}
-
 model BillItem {
-    id            String         @id @default(cuid())
-    name          String
-    description   String?
-    amount        Int
-    type          BillItemType
-    createdAt     DateTime       @default(now())
-    updatedAt     DateTime       @updatedAt
-    User          User           @relation(fields: [userId], references: [id])
-    userId        String
-    url           String
-    recurringDate DateTime? // recurring
-    recurringType RecurringType? @default(None)
-    oneTimeDate   DateTime? // OneTime, no Notifications
+    id        String       @id @default(cuid())
+    name      String
+    amount    Float
+    type      BillItemType
+    User      User         @relation(fields: [userId], references: [id])
+    userId    String
+    url       String
+    billDate  DateTime
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @updatedAt
 
     @@index([userId])
 }
