@@ -43,4 +43,4 @@ npm run dev
 
 ## License
 
-This application is licensed under the [Apache-2.0 license](). If you're copying this website just let me know.
+This application is licensed under the [Apache-2.0 license](https://github.com/alexisveryreal/artemecion/blob/main/LICENSE). If you're copying this website just let me know.
