@@ -92,39 +92,43 @@ const Navbar = ({ email, image, name, status }: NavbarProps) => {
               </div>
               <div className="flex items-center">
                 <div className="mr-4 flex-shrink-0">
-                  <Button variant="outline">
-                    <FaGithub
-                      className="-ml-1 mr-2 hidden h-5 w-5 md:block"
-                      aria-hidden="true"
-                    />
-                    <Link
-                      href={"https://github.com/alexisveryreal/artemecion"}
-                      target="_blank"
-                      referrerPolicy="no-referrer"
-                      className="hidden md:block"
-                    >
+                  <Link
+                    href={"https://github.com/alexisveryreal/artemecion"}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="hidden md:block"
+                  >
+                    <Button variant="outline">
+                      <FaGithub
+                        className="-ml-1 mr-2 hidden h-5 w-5 md:block"
+                        aria-hidden="true"
+                      />
                       Github
-                    </Link>
-                    <Link
-                      href={"https://github.com/alexisveryreal/artemecion"}
-                      target="_blank"
-                      referrerPolicy="no-referrer"
-                      className="block md:hidden"
-                    >
+                    </Button>
+                  </Link>
+                  <Link
+                    href={"https://github.com/alexisveryreal/artemecion"}
+                    target="_blank"
+                    referrerPolicy="no-referrer"
+                    className="block md:hidden"
+                  >
+                    <Button variant="outline">
                       <FaGithub className="h-5 w-5" aria-hidden="true" />
                       <span className="sr-only">Github</span>
-                    </Link>
-                  </Button>
+                    </Button>
+                  </Link>
                 </div>
                 <div className="flex-shrink-0">
                   {authenticated ? (
-                    <Button variant="default" size="sm">
-                      <PlusIcon
-                        className="-ml-1 mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
-                      New Bill
-                    </Button>
+                    <Link href="/create-bill">
+                      <Button variant="default" size="sm">
+                        <PlusIcon
+                          className="-ml-1 mr-2 h-5 w-5"
+                          aria-hidden="true"
+                        />
+                        New Bill
+                      </Button>
+                    </Link>
                   ) : (
                     <Button
                       variant="default"
@@ -200,7 +204,7 @@ const Navbar = ({ email, image, name, status }: NavbarProps) => {
               {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-zinc-500 hover:bg-zinc-50 hover:border-zinc-300 hover:text-zinc-700" */}
               <Disclosure.Button
                 as={Link}
-                href="#"
+                href="/dashboard"
                 className={cn(
                   path === "/dashboard"
                     ? "border-violet-500 bg-violet-50 text-violet-700"
