@@ -129,7 +129,7 @@ const BillTable = ({ bills }: BillTableProps) => {
                   {bill.type.split(/(?=[A-Z])/).join(" ")}
                 </td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-6 md:pr-8">
-                  {formatDate(bill.createdAt)}
+                  {bill.createdAt.toLocaleDateString()}
                 </td>
               </tr>
             ))}
