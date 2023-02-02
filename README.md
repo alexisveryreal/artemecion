@@ -13,11 +13,12 @@
 # Stack
 - [T3 Stack](https://create.t3.gg/)
 - [PlanetScale](https://planetscale.com/)
+- [Headless UI](https://headlessui.com/)
+- [React Hook Form](https://react-hook-form.com/)
 
 -- planned --
 - [Upstash QStash](https://docs.upstash.com/qstash)
-- [Headless UI](https://headlessui.com/)
-- [React Hook Form](https://react-hook-form.com/)
+
 
 
 ## Running Locally
