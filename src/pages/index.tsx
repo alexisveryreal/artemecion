@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { KeyIcon } from "@heroicons/react/24/outline";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -28,13 +29,10 @@ const Home: NextPage = () => {
                   variant="default"
                   type="button"
                   onClick={() =>
-                    void signIn("discord", { callbackUrl: "/dashboard" })
+                    void signIn(undefined, { callbackUrl: "/dashboard" })
                   }
                 >
-                  <FaDiscord
-                    className="-ml-1 mr-2 h-5 w-5"
-                    aria-hidden="true"
-                  />
+                  <KeyIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                   Sign in
                 </Button>
               ) : (

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, KeyIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { cn } from "../utils/cn";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { Button } from "./ui/Button";
 import Link from "next/link";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { FaDiscord, FaGithub } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
 
 export type NavbarProps = {
   email?: string;
@@ -135,10 +135,10 @@ const Navbar = ({ email, image, name, status }: NavbarProps) => {
                       type="button"
                       // size="sm"
                       onClick={() =>
-                        void signIn("discord", { callbackUrl: "/dashboard" })
+                        void signIn(undefined, { callbackUrl: "/dashboard" })
                       }
                     >
-                      <FaDiscord className="-ml-1 mr-2 h-5 w-5" />
+                      <KeyIcon className="-ml-1 mr-2 h-5 w-5" />
                       Sign in
                     </Button>
                   )}
