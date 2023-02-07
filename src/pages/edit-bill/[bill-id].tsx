@@ -9,7 +9,6 @@ import { SuccessModal } from "../../components/SuccessModal";
 import { Button } from "../../components/ui/Button";
 import { api } from "../../utils/api";
 import { cn } from "../../utils/cn";
-import { defaultDateInput } from "../../utils/date";
 import { billCreateSchema, options } from "../create-bill";
 
 // same validation as bill creation but id field from the bill-id
@@ -29,9 +28,15 @@ const EditBillPage = () => {
     {
       enabled: !!billId,
       retry: false,
+      refetchInterval: false,
+      refetchOnWindowFocus: false,
+      refetchIntervalInBackground: false,
       onSuccess(data) {
         form.setValue("amount", data.amount);
-        form.setValue("billDate", data.billDate);
+        form.setValue(
+          "billDate",
+          data.billDate.toJSON().slice(0, 10) as unknown as Date
+        );
         form.setValue("name", data.name);
         form.setValue("type", data.type);
         form.setValue("url", data.url);
@@ -40,7 +45,11 @@ const EditBillPage = () => {
     }
   );
 
-  const { mutate: editBill, isLoading } = api.bill.edit.useMutation();
+  const { mutate: editBill, isLoading } = api.bill.edit.useMutation({
+    onSuccess: () => {
+      setModalOpen(true);
+    },
+  });
 
   const form = useZodForm({
     schema: editBillSchema,
@@ -126,9 +135,6 @@ const EditBillPage = () => {
                           <FormInput
                             type="date"
                             label="Bill Date"
-                            defaultValue={
-                              bill && bill.billDate.toLocaleDateString()
-                            }
                             {...form.register("billDate")}
                           />
                           <p className="mt-2 text-sm text-zinc-500">
@@ -144,9 +150,16 @@ const EditBillPage = () => {
                         type="button"
                         variant="outline"
                         className="px-4"
-                        onClick={() => form.reset()}
+                        onClick={() =>
+                          form.reset({
+                            ...bill,
+                            billDate: bill?.billDate
+                              .toJSON()
+                              .slice(0, 10) as unknown as Date,
+                          })
+                        }
                       >
-                        Cancel
+                        Reset
                       </Button>
                       <Button
                         type="submit"
