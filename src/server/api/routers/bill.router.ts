@@ -1,5 +1,7 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { billCreateSchema } from "../../../pages/create-bill";
+import { editBillSchema } from "../../../pages/edit-bill/[bill-id]";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -14,6 +16,25 @@ export const billRouter = createTRPCRouter({
     return bills;
   }),
 
+  getBill: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const bill = await ctx.prisma.billItem.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+
+      if (!bill) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Bill not found",
+        });
+      }
+
+      return bill;
+    }),
+
   create: protectedProcedure
     .input(billCreateSchema)
     .mutation(({ input, ctx }) => {
@@ -24,4 +45,17 @@ export const billRouter = createTRPCRouter({
         },
       });
     }),
+
+  edit: protectedProcedure.input(editBillSchema).mutation(({ input, ctx }) => {
+    const { id, ...rest } = input;
+
+    return ctx.prisma.billItem.update({
+      where: {
+        id,
+      },
+      data: {
+        ...rest,
+      },
+    });
+  }),
 });
