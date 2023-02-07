@@ -9,3 +9,12 @@ export const formatDate = (date: Date) => {
   const year = date.getFullYear();
   return `${month}/${day}/${year}`;
 };
+
+/**
+ *
+ * @param date any date input
+ * @returns date in YYYY-MM-DD format for default date input
+ */
+export const defaultDateInput = (date: Date) => {
+  return date.toISOString().split("T")[0];
+};

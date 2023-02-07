@@ -97,9 +97,15 @@ const BillTable = ({ bills }: BillTableProps) => {
               </th>
               <th
                 scope="col"
-                className="sticky top-14 z-10 bg-violet-50 bg-opacity-75 py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pr-6 md:pr-8"
+                className="sticky top-14 z-10  bg-violet-50 bg-opacity-75 py-3.5 px-3 text-right text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
               >
                 Date
+              </th>
+              <th
+                scope="col"
+                className="sticky top-14 z-10 bg-violet-50 bg-opacity-75 py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pr-6 md:pr-8"
+              >
+                <span className="sr-only">Edit</span>
               </th>
             </tr>
           </thead>
@@ -128,8 +134,18 @@ const BillTable = ({ bills }: BillTableProps) => {
                 <td className="hidden py-4 px-3 text-right text-sm text-gray-500 sm:table-cell">
                   {bill.type.split(/(?=[A-Z])/).join(" ")}
                 </td>
-                <td className="py-4 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-6 md:pr-8">
+
+                <td className="py-4 px-3 text-right text-sm text-gray-500 ">
                   {formatDate(bill.billDate)}
+                </td>
+
+                <td className="py-4 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-6 md:pr-8">
+                  <Link href={`/edit-bill/${bill.id}`}>
+                    <Button variant="outline">
+                      Edit
+                      <span className="sr-only">{bill.name}</span>
+                    </Button>
+                  </Link>
                 </td>
               </tr>
             ))}

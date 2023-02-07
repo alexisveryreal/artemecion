@@ -27,7 +27,7 @@ export const billCreateSchema = z.object({
   billDate: z.coerce.date(),
 });
 
-const options: Options[] = [
+export const options: Options[] = [
   {
     name: "OneTime",
     description: "This is a one off bill",
