@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ClerkProvider } from "@clerk/nextjs";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ export const Providers = ({ children }: ProviderProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <ClerkProvider>{children}</ClerkProvider>
     </NextThemesProvider>
   );
 };
