@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SignOutButton, UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -12,20 +12,7 @@ import {
   NavbarSection,
   NavbarSpacer,
 } from "@/components/ui/navbar";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
-import {
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
@@ -36,19 +23,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <Logo />
           <NavbarDivider className="max-lg:hidden" />
           <NavbarSection className="max-lg:hidden">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link href="/dashboard" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      Dashboard
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
+            <Button size="sm" variant="outline" asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
           </NavbarSection>
           <NavbarSpacer />
           <NavbarSection>
@@ -69,34 +46,17 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </Navbar>
       }
       sidebar={
-        <div>
-          <NavigationMenu orientation="vertical">
-            <NavigationMenuList className="grid grid-cols-1">
-              <NavigationMenuItem>
-                <Link href="/" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    <div className="flex items-center gap-x-2 transition">
-                      <Image
-                        src="/images/icon.svg"
-                        alt="Logo"
-                        height={30}
-                        width={30}
-                      />
-                      <p className={cn("pb-1 text-lg")}>Artemecion</p>
-                    </div>
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <Separator className="my-4" />
-              <NavigationMenuItem>
-                <Link href="/dashboard" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Dashboard
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+        <div className="flex w-auto flex-col items-start justify-center space-y-4">
+          <Link href="/">
+            <div className="flex items-center gap-x-2 transition hover:opacity-75">
+              <Image src="/images/icon.svg" alt="Logo" height={30} width={30} />
+              <p className={cn("pb-1 text-lg")}>Artemecion</p>
+            </div>
+          </Link>
+          <Separator className="w-full" />
+          <Button size="sm" variant="outline" asChild>
+            <Link href="/dashboard">Dashboard</Link>
+          </Button>
         </div>
       }
     >
