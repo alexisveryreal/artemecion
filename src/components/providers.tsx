@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ClerkProvider } from "@clerk/nextjs";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -16,7 +16,7 @@ export const Providers = ({ children }: ProviderProps) => {
       enableSystem
       disableTransitionOnChange
     >
-      <ClerkProvider>{children}</ClerkProvider>
+      <ClerkProvider afterSignOutUrl="/">{children}</ClerkProvider>
     </NextThemesProvider>
   );
 };
