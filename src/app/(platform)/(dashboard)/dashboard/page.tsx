@@ -1,7 +1,11 @@
+import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { type BillItem } from "@prisma/client";
+import { PlusIcon } from "@radix-ui/react-icons";
 
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/server/db";
 
 import { columns } from "./columns";
@@ -27,9 +31,17 @@ const DashboardPage = async () => {
 
   return (
     <div>
-      <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-        Dashboard
-      </h2>
+      <div className="flex justify-between">
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          Dashboard
+        </h2>
+        <Button asChild>
+          <Link href="/create-bill">
+            <PlusIcon className="mr-2 h-4 w-4" /> Add New Bill
+          </Link>
+        </Button>
+      </div>
+      <Separator className="w-full" />
       <h4 className="mt-5 scroll-m-20 text-xl font-semibold tracking-tight">
         All Bills
       </h4>
