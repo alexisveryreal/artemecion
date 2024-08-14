@@ -1,10 +1,10 @@
 import { auth } from "@clerk/nextjs/server";
 import { type BillItem } from "@prisma/client";
 
+import { DataTable } from "@/components/ui/data-table";
 import { db } from "@/server/db";
 
 import { columns } from "./columns";
-import { DataTable } from "./data-table";
 
 const getData = async (): Promise<BillItem[]> => {
   const { userId } = auth();
