@@ -22,7 +22,7 @@ export const columns: ColumnDef<BillItem>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      return <div className="ml-2">{row.getValue("name")}</div>;
+      return <div className="">{row.getValue("name")}</div>;
     },
   },
   {
@@ -42,11 +42,15 @@ export const columns: ColumnDef<BillItem>[] = [
   },
   {
     accessorKey: "type",
-    header: "Category",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Type" />
+    ),
   },
   {
     accessorKey: "billDate",
-    header: "Date",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Date" />
+    ),
   },
   {
     id: "actions",
