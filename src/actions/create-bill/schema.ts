@@ -12,5 +12,4 @@ export const CreateBill = z.object({
   type: z.enum(["OneTime", "Recurring"]),
   url: z.string().url("Please enter a valid url"),
   billDate: z.coerce.date(),
-  userId: z.string(),
-}) satisfies z.Schema<Prisma.BillItemCreateInput>;
+}) satisfies z.Schema<Omit<Prisma.BillItemCreateInput, "userId">>;

@@ -1,11 +1,14 @@
 "use client";
 
-import { useRef } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { useFormState } from "react-dom";
+import { type SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+import { type z } from "zod";
+import { useServerAction } from "zsa-react";
 
-import { createBill } from "@/actions/create-bill";
+import { createBillAction } from "@/actions/create-bill";
+import { CreateBill } from "@/actions/create-bill/schema";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -24,58 +27,51 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useAction } from "@/hooks/use-action";
 import { useZodForm } from "@/hooks/use-zod-form";
 import { cn } from "@/lib/utils";
 
-import { createBillSchema } from "./schema";
-import { onSubmitAction } from "./simple";
-
 export const CreateBillForm = () => {
-  // const { mutate, fieldErrors } = useAction(createBill, {
-  //   onSuccess(data) {
-  //     console.log(data, "SUCCESS");
-  //   },
-  //   onError(error) {
-  //     console.error(error);
-  //   },
-  // });
-
-  // const onSubmit = (formData: FormData) => {
-  //   const data = Object.entries(formData);
-  //   // mutate(data);
-  // };
-
-  const [state, formAction] = useFormState(onSubmitAction, {
-    message: "",
+  const { execute, error, isPending } = useServerAction(createBillAction, {
+    onSuccess() {
+      console.log();
+      toast.success("Success", {
+        description: "Bill created successfully",
+      });
+    },
+    onError(err) {
+      toast.error("An Error occured", {
+        description: "lol",
+      });
+      console.log(err.err.message);
+    },
   });
 
   const form = useZodForm({
-    schema: createBillSchema,
+    schema: CreateBill,
     defaultValues: {
       amount: 0,
       billDate: new Date(),
       name: "",
       type: "OneTime",
       url: "",
-      userId: "",
     },
   });
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const onSubmit: SubmitHandler<z.infer<typeof CreateBill>> = (values) => {
+    void execute({
+      amount: values.amount,
+      billDate: values.billDate,
+      name: values.name,
+      type: values.type,
+      url: values.url,
+    });
+  };
 
   return (
     <Form {...form}>
       <form
-        ref={formRef}
         className="space-y-8"
-        action={formAction}
-        onSubmit={(evt) => {
-          evt.preventDefault();
-          void form.handleSubmit(() => {
-            formAction(new FormData(formRef.current!));
-          })(evt);
-        }}
+        onSubmit={form.handleSubmit(onSubmit, console.log)}
       >
         <div className="flex gap-2">
           <FormField
