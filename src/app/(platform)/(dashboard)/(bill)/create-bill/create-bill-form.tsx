@@ -31,7 +31,7 @@ import { useZodForm } from "@/hooks/use-zod-form";
 import { cn } from "@/lib/utils";
 
 export const CreateBillForm = () => {
-  const { execute, error, isPending } = useServerAction(createBillAction, {
+  const { execute, isPending } = useServerAction(createBillAction, {
     onSuccess() {
       console.log();
       toast.success("Success", {
@@ -192,7 +192,9 @@ export const CreateBillForm = () => {
             )}
           />
         </div>
-        <Button type="submit">Submit</Button>
+        <Button disabled={isPending} type="submit">
+          Submit
+        </Button>
       </form>
     </Form>
   );

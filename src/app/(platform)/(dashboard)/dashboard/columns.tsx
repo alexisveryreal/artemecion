@@ -2,6 +2,7 @@
 
 import { type BillItem } from "@prisma/client";
 import { type ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 
@@ -14,7 +15,7 @@ export const columns: ColumnDef<BillItem>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      return <div className="">{row.getValue("name")}</div>;
+      return <div className="w-[100px]">{row.getValue("name")}</div>;
     },
   },
   {
@@ -33,7 +34,7 @@ export const columns: ColumnDef<BillItem>[] = [
         currency: "USD",
       }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="ml-3">{formatted}</div>;
     },
   },
   {
@@ -47,6 +48,10 @@ export const columns: ColumnDef<BillItem>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date" />
     ),
+    cell: ({ row }) => {
+      const formatted = format(row.getValue("billDate"), "PPP");
+      return <div>{formatted}</div>;
+    },
   },
   {
     id: "actions",
