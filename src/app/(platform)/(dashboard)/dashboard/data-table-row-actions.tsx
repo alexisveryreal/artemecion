@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { type Row } from "@tanstack/react-table";
 
@@ -23,6 +24,7 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const bill = billSchema.parse(row.original);
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -36,7 +38,7 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem onClick={() => console.log("Deleting: ", bill.id)}>
+        <DropdownMenuItem onClick={() => router.push(`/edit-bill/${bill.id}`)}>
           Edit
         </DropdownMenuItem>
         <DropdownMenuSeparator />
