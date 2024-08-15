@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
+  // DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -42,9 +42,16 @@ export function DataTableRowActions<TData>({
           Edit
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onKeyDown={(e) => {
+            console.log(e.key);
+            if (e.metaKey && e.key === "Delete") {
+              console.log("YIPPIE");
+            }
+          }}
+          onClick={() => console.log("DELETE UH YEAH")}
+        >
           Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
