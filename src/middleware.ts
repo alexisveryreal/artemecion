@@ -7,7 +7,7 @@ export default clerkMiddleware((auth, request) => {
   if (!isPublicRoute(request)) {
     auth().protect();
   }
-  if (auth().userId && request.nextUrl.pathname !== "/dashboard") {
+  if (auth().userId && request.nextUrl.pathname === "") {
     // user is logged in just route to dashboard automatically
     const dashboard = new URL("/dashboard", request.url);
     return NextResponse.redirect(dashboard);

@@ -4,7 +4,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { type Row } from "@tanstack/react-table";
+import { toast } from "sonner";
+import { useServerAction } from "zsa-react";
 
+import { deleteBillAction } from "@/actions/delete-bill";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -31,15 +34,33 @@ export function DataTableRowActions<TData>({
   const os = useOS();
   const [open, setOpen] = useState(false);
 
+  const { execute, isPending } = useServerAction(deleteBillAction, {
+    onSuccess() {
+      toast.success("Success", {
+        description: "Successfully deleted bill",
+      });
+    },
+    onError(err) {
+      toast.error("An error has occured", {
+        description: "lmao",
+      });
+      console.log(err.err.message);
+    },
+  });
+
   const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    console.log("OS IS: ", os);
-    console.log("Code is: ", e.code);
     if ((e.metaKey || e.ctrlKey) && e.code === "Backspace") {
-      console.log("HELLO WORLD");
-      // modal here
+      setOpen(true);
     }
-    if ((e.metaKey || e.ctrlKey) && e.code === "KeyE") {
-      console.log("EDIT");
+
+    if (os === "MacOS" && e.metaKey && e.code === "KeyE") {
+      router.push(`/edit-bill/${bill.id}`);
+    } else if (
+      os === "Windows" &&
+      e.ctrlKey &&
+      e.shiftKey &&
+      e.code === "KeyE"
+    ) {
       router.push(`/edit-bill/${bill.id}`);
     }
   };
@@ -66,16 +87,16 @@ export function DataTableRowActions<TData>({
           >
             Edit
             {os === "MacOS" && <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>}
-            {(os === "Windows" || os === "Linux") && (
-              <DropdownMenuShortcut>ctrl E</DropdownMenuShortcut>
+            {os === "Windows" && (
+              <DropdownMenuShortcut>ctrl ↑ E</DropdownMenuShortcut>
             )}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          <DropdownMenuItem disabled={isPending} onClick={() => setOpen(true)}>
             Delete
             {os === "MacOS" && <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>}
-            {(os === "Windows" || os === "Linux") && (
+            {os === "Windows" && (
               <DropdownMenuShortcut>ctrl⌫</DropdownMenuShortcut>
             )}
           </DropdownMenuItem>
@@ -85,7 +106,7 @@ export function DataTableRowActions<TData>({
         open={open}
         name={bill.name}
         onOpenChange={setOpen}
-        action={() => console.log("DELETE?")}
+        action={() => execute({ id: bill.id })}
       />
     </>
   );
