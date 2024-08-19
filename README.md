@@ -12,12 +12,8 @@
 
 # Stack
 - [T3 Stack](https://create.t3.gg/)
-- [PlanetScale](https://planetscale.com/)
-- [Headless UI](https://headlessui.com/)
+- [Neon](https://neon.tech/home)
 - [React Hook Form](https://react-hook-form.com/)
-
--- planned --
-- [Upstash QStash](https://docs.upstash.com/qstash)
 
 
 # Showcase
@@ -41,6 +37,8 @@
 - Edit bills which will pre-populate form with saved inputs, and clicking on "Reset" will revert back to original inputs.
 
 ![image](https://user-images.githubusercontent.com/44214923/218877169-a09c7af9-bb43-4ea7-9801-f505cf92d1ab.png)
+
+
 
 
 
