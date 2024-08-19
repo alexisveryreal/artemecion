@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 
@@ -7,11 +9,14 @@ export const Footer = () => {
       <div className="mx-auto flex w-full items-center justify-between md:max-w-screen-2xl">
         <Logo />
         <div className="flex w-full items-center justify-between space-x-4 md:block md:w-auto">
-          <Button size="sm" variant="ghost">
-            Privacy Policy
-          </Button>
-          <Button size="sm" variant="ghost">
-            Terms of Serivce
+          <Button size="sm" variant="ghost" asChild>
+            <Link
+              href="https://github.com/alexisveryreal"
+              target="_blank"
+              rel="no refferer"
+            >
+              Created by Alexis Villarreal
+            </Link>
           </Button>
         </div>
       </div>
