@@ -18,25 +18,30 @@
 
 # Showcase
 
-![image](https://user-images.githubusercontent.com/44214923/218876036-87333928-af36-4813-9143-b0105e554a56.png)
+<img width="1050" alt="image" src="https://github.com/user-attachments/assets/1b301861-4f57-44b4-ac85-5782d60d83c2">
 
-- Discord Authentication with [NextAuth](https://next-auth.js.org/)
+- Also Dark mode on all pages
 
-![image](https://user-images.githubusercontent.com/44214923/218876213-71103e4b-79ce-4167-8973-f753c2f9a391.png)
+<img width="1114" alt="image" src="https://github.com/user-attachments/assets/184c738f-4992-4bee-bdac-293c68f1015f">
+
+
+
+- Social Authentication with [Clerk](https://clerk.com/)
+
+<img width="1050" alt="image" src="https://github.com/user-attachments/assets/b2a6f570-1f59-4823-8f9a-7fdb1ef1e252">
+
 
 - Dashboard to track your bills
 
-![image](https://user-images.githubusercontent.com/44214923/218876315-45909d2a-f609-4417-b31a-32e686d84c8b.png)
+<img width="1114" alt="image" src="https://github.com/user-attachments/assets/2301613b-03eb-4b01-9738-0dedf0224742">
 
-- Form to create a new bill built with TailwindCSS and [Headless UI](https://headlessui.com/), form validation powered by [react-hook-form](https://react-hook-form.com/)
 
-![image](https://user-images.githubusercontent.com/44214923/218876615-9eb5bcda-8e83-4b9f-b0fc-caa5d0e2f4c2.png)
 
-![image](https://user-images.githubusercontent.com/44214923/218876908-76c28c26-beb3-4534-9f26-8b7c6bc7b7ac.png)
+- Form to create a new bill built with TailwindCSS, form validation powered by [react-hook-form](https://react-hook-form.com/) along with server actions
 
-- Edit bills which will pre-populate form with saved inputs, and clicking on "Reset" will revert back to original inputs.
+<img width="1114" alt="image" src="https://github.com/user-attachments/assets/baf2f09e-33a7-46e4-b17d-48d61a81246c">
 
-![image](https://user-images.githubusercontent.com/44214923/218877169-a09c7af9-bb43-4ea7-9801-f505cf92d1ab.png)
+<img width="1114" alt="image" src="https://github.com/user-attachments/assets/cf5ef4fb-07c0-4b02-9114-63e9638f9800">
 
 
 
