@@ -6,12 +6,13 @@ import { db } from "@/server/db";
 import { EditBillForm } from "./edit-bill-form";
 
 interface EditBillPageProps {
-  params: {
+  params: Promise<{
     "bill-id": string;
-  };
+  }>;
 }
 
-const EditBillPage = async ({ params }: EditBillPageProps) => {
+const EditBillPage = async (props: EditBillPageProps) => {
+  const params = await props.params;
   const bill = await db.billItem.findUnique({
     where: {
       id: params["bill-id"],
