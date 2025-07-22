@@ -18,7 +18,7 @@
   "dependencies": {
     "@clerk/nextjs": "^6.25.4",
     "@hookform/resolvers": "^5.1.1",
-    "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+    "@ianvs/prettier-plugin-sort-imports": "^4.5.1",
     "@next-safe-action/adapter-react-hook-form": "^2.0.0",
     "@prisma/client": "^6.12.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -65,7 +65,7 @@
     "prisma": "^6.12.0",
     "tailwindcss": "^4.1.11",
     "tw-animate-css": "^1.3.5",
-    "typescript": "^5.5.3",
+    "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0"
   },
   "ct3aMetadata": {
