@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { type Row } from "@tanstack/react-table";
+import { useAction } from "next-safe-action/hooks";
 import { toast } from "sonner";
-import { useServerAction } from "zsa-react";
 
 import { deleteBillAction } from "@/actions/delete-bill";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,7 @@ export function DataTableRowActions<TData>({
   const os = useOS();
   const [open, setOpen] = useState(false);
 
-  const { execute, isPending } = useServerAction(deleteBillAction, {
+  const { execute, isPending } = useAction(deleteBillAction, {
     onSuccess() {
       toast.success("Success", {
         description: "Successfully deleted bill",
@@ -44,7 +44,7 @@ export function DataTableRowActions<TData>({
       toast.error("An error has occured", {
         description: "lmao",
       });
-      console.log(err.err.message);
+      console.log(err.error);
     },
   });
 
@@ -71,7 +71,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+            className="data-[state=open]:bg-muted flex h-8 w-8 p-0"
           >
             <DotsHorizontalIcon className="h-4 w-4" />
             <span className="sr-only">Open menu</span>

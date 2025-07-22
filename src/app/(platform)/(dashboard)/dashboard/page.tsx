@@ -11,7 +11,7 @@ import { db } from "@/server/db";
 import { columns } from "./columns";
 
 const getData = async (): Promise<BillItem[]> => {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     return [];
