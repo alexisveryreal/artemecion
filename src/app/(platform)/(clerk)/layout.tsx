@@ -6,7 +6,7 @@ interface SingInLayoutProps {
 
 const AuthLayout = ({ children }: SingInLayoutProps) => {
   return (
-    <div className="flex h-full items-center justify-center bg-gradient-to-b from-violet-300 to-primary-foreground">
+    <div className="to-primary-foreground flex h-full items-center justify-center bg-gradient-to-b from-violet-300">
       {children}
     </div>
   );

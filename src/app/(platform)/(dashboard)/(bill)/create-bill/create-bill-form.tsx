@@ -1,11 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import { type z } from "zod";
-import { useServerAction } from "zsa-react";
 
 import { createBillAction } from "@/actions/create-bill";
 import { CreateBill } from "@/actions/create-bill/schema";
@@ -27,52 +26,42 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useZodForm } from "@/hooks/use-zod-form";
 import { cn } from "@/lib/utils";
 
 export const CreateBillForm = () => {
-  const { execute, isPending } = useServerAction(createBillAction, {
-    onSuccess() {
-      console.log();
-      toast.success("Success", {
-        description: "Bill created successfully",
-      });
+  const { form, handleSubmitWithAction, action } = useHookFormAction(
+    createBillAction,
+    zodResolver(CreateBill),
+    {
+      actionProps: {
+        onSuccess() {
+          console.log();
+          toast.success("Success", {
+            description: "Bill created successfully",
+          });
+        },
+        onError(err) {
+          toast.error("An Error occured", {
+            description: "lol",
+          });
+          console.log(err.error);
+        },
+      },
+      formProps: {
+        defaultValues: {
+          amount: 0,
+          billDate: new Date(),
+          name: "",
+          type: "OneTime",
+          url: "",
+        },
+      },
     },
-    onError(err) {
-      toast.error("An Error occured", {
-        description: "lol",
-      });
-      console.log(err.err.message);
-    },
-  });
-
-  const form = useZodForm({
-    schema: CreateBill,
-    defaultValues: {
-      amount: 0,
-      billDate: new Date(),
-      name: "",
-      type: "OneTime",
-      url: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<z.infer<typeof CreateBill>> = (values) => {
-    void execute({
-      amount: values.amount,
-      billDate: values.billDate,
-      name: values.name,
-      type: values.type,
-      url: values.url,
-    });
-  };
+  );
 
   return (
     <Form {...form}>
-      <form
-        className="space-y-8"
-        onSubmit={form.handleSubmit(onSubmit, console.log)}
-      >
+      <form className="space-y-8" onSubmit={handleSubmitWithAction}>
         <div className="flex gap-2">
           <FormField
             control={form.control}
@@ -90,11 +79,16 @@ export const CreateBillForm = () => {
           <FormField
             control={form.control}
             name="amount"
-            render={({ field }) => (
+            render={({ field: { value, ...rest } }) => (
               <FormItem className="w-full">
                 <FormLabel>Amount</FormLabel>
                 <FormControl>
-                  <Input type="number" placeholder="" {...field} />
+                  <Input
+                    type="number"
+                    placeholder=""
+                    value={value as string}
+                    {...rest}
+                  />
                 </FormControl>
                 <FormDescription>
                   The amount of this specified bill
@@ -116,13 +110,13 @@ export const CreateBillForm = () => {
                   defaultValue={field.value}
                   className="flex flex-col space-y-1"
                 >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem className="flex items-center space-y-0 space-x-3">
                     <FormControl>
                       <RadioGroupItem value="OneTime" />
                     </FormControl>
                     <FormLabel className="font-normal">One Time</FormLabel>
                   </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
+                  <FormItem className="flex items-center space-y-0 space-x-3">
                     <FormControl>
                       <RadioGroupItem value="Recurring" />
                     </FormControl>
@@ -180,7 +174,7 @@ export const CreateBillForm = () => {
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => date < new Date("1900-01-01")}
-                      initialFocus
+                      autoFocus
                     />
                   </PopoverContent>
                 </Popover>
@@ -192,7 +186,7 @@ export const CreateBillForm = () => {
             )}
           />
         </div>
-        <Button disabled={isPending} type="submit">
+        <Button disabled={action.isPending} type="submit">
           Submit
         </Button>
       </form>

@@ -3,17 +3,16 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { authenticatedAction } from "@/lib/safe-action";
+import { authActionClient } from "@/lib/safe-action";
 import { db } from "@/server/db";
 
 import { CreateBill } from "./schema";
 
-export const createBillAction = authenticatedAction
-  .createServerAction()
-  .input(CreateBill)
-  .handler(
+export const createBillAction = authActionClient
+  .inputSchema(CreateBill)
+  .action(
     async ({
-      input: { amount, billDate, name, type, url },
+      parsedInput: { amount, billDate, name, type, url },
       ctx: { userId },
     }) => {
       await db.billItem.create({
